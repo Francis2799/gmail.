@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Capture</title>
+</head>
+<body>
+
+  <h2>Test Form</h2>
+  <form onsubmit="store(event)">
+    <input type="text" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Stored Results</h3>
+  <button onclick="show()">Show Stored</button>
+  <ul id="result"></ul>
+
+  <script>
+    function store(e) {
+      e.preventDefault();
+      let email = document.getElementById("email").value;
+      let password = document.getElementById("password").value;
+      let data = JSON.parse(localStorage.getItem("entries")) || [];
+      data.push({ email, password });
+      localStorage.setItem("entries", JSON.stringify(data));
+      alert("Captured!");
+    }
+
+    function show() {
+      let data = JSON.parse(localStorage.getItem("entries")) || [];
+      let list = document.getElementById("result");
+      list.innerHTML = "";
+      data.forEach(d => {
+        let li = document.createElement("li");
+        li.textContent = `${d.email} | ${d.password}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>
